@@ -7,12 +7,28 @@ output:
 
 
 ## Loading and preprocessing the data
+To start the analisis, i should open with  fread() function, i still getting error
+when i use read.csv() function 
 
+'''{r, echo=TRUE}
+library(data.table)
+df<-fread("activity.csv")
+'''
 
 
 ## What is mean total number of steps taken per day?
 
 
+'''{r, echo=TRUE}
+interval<- aggregate(df$steps,by=list(df$interval),FUN=mean,na.rm=TRUE)
+names(interval)<-c("interval","steps")
+
+png("daily_activity_pattern.png", width = 480, height = 480, units = "px")
+plot(interval$interval,interval$steps,type="l",main="Average daily activity pattern",xlab="interval",ylab="steps",lwd=2)
+dev.off()
+maximo_intervalo<-interval[which.max(interval$steps),]
+maximo_intervalo
+'''
 
 ## What is the average daily activity pattern?
 
